@@ -1,4 +1,4 @@
-from algorithms.graph_search import Problem
+from algorithms.general_search import Problem
 from typing import List, Tuple
 
 

@@ -82,7 +82,7 @@ def general_search(problem: Problem, queueing_function: Callable) -> Optional[An
         new_nodes = expand(node, problem)
         nodes = queueing_function(nodes, new_nodes)
         
-        return None, expanded_nodes
+
     
 
 
