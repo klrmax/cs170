@@ -64,12 +64,19 @@ def expand(node: Node, problem: Problem) -> List[Node]:
 def general_search(problem: Problem, queueing_function: Callable) -> Tuple[Optional[Node], int]:
     nodes = deque([Node(problem.initial_state)])
     expanded_nodes = 0
+    best_cost = {} #Dic for best cost per state
 
     while True:
         if not nodes:
             return None, expanded_nodes
         
         node = nodes.popleft()
+        expanded_nodes += 1
+
+        if node.state in best_cost and node.cost >= best_cost[node.state]:
+            continue 
+
+        best_cost[node.state] = node.cost
         expanded_nodes += 1
 
         if problem.goal_test(node.state):

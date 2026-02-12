@@ -15,7 +15,7 @@ TEST_CASES = {
     'testcase_5': (1, 3, 6, 5, 0, 7, 4, 8, 2),  # depth 12
     'testcase_6': (1, 6, 7, 5, 0, 3, 4, 8, 2),  # depth 16
     'testcase_7': (7, 1, 2, 4, 8, 5, 6, 3, 0),  # depth 20
-    #'testcase_8': (0, 7, 2, 4, 6, 1, 3, 5, 8),  # depth 24
+    'testcase_8': (0, 7, 2, 4, 6, 1, 3, 5, 8),  # depth 24
 }
 
 GOAL = (1, 2, 3, 4, 5, 6, 7, 8, 0)
@@ -62,14 +62,14 @@ def run_all_tests():
             current += 1
             
             # Skip UCS for hard puzzles
-            if algo_name == 'UCS' and test_name in ['testcase_5', 'testcase_6', 'testcase_7', 'testcase_8']:
-                print(f"  [{current}/{total}] {algo_name:20} - SKIPPED (too expensive)")
-                continue
+            #if algo_name == 'UCS' and test_name in ['testcase_5', 'testcase_6', 'testcase_7', 'testcase_8']:
+                #print(f"  [{current}/{total}] {algo_name:20} - SKIPPED (too expensive)")
+                #continue
 
              # Skip A* Misplaced Tiles for hard puzzles
-            if algo_name == 'A* Misplaced' and test_name in ['testcase_7', 'testcase_8']:
-                print(f"  [{current}/{total}] {algo_name:20} - SKIPPED (heuristic to weak)")
-                continue
+            #if algo_name == 'A* Misplaced' and test_name in ['testcase_7', 'testcase_8']:
+               # print(f"  [{current}/{total}] {algo_name:20} - SKIPPED (heuristic to weak)")
+                #continue
             
             # Configure queueing function
             if heuristic:
