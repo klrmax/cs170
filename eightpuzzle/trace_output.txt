@@ -1,0 +1,111 @@
+
+testcase_7: (7, 1, 2, 4, 8, 5, 6, 3, 0)
+The best state to expand with g(n) = 0 and h(n) = 12 is...
+[[7, 1, 2],
+ [4, 8, 5],
+ [6, 3, 0]]
+
+The best state to expand with g(n) = 1 and h(n) = 11 is...
+[[7, 1, 2],
+ [4, 8, 5],
+ [6, 0, 3]]
+
+The best state to expand with g(n) = 2 and h(n) = 10 is...
+[[7, 1, 2],
+ [4, 8, 5],
+ [0, 6, 3]]
+
+The best state to expand with g(n) = 3 and h(n) = 11 is...
+[[7, 1, 2],
+ [0, 8, 5],
+ [4, 6, 3]]
+
+The best state to expand with g(n) = 4 and h(n) = 12 is...
+[[7, 1, 2],
+ [8, 0, 5],
+ [4, 6, 3]]
+
+The best state to expand with g(n) = 5 and h(n) = 11 is...
+[[7, 1, 2],
+ [8, 5, 0],
+ [4, 6, 3]]
+
+The best state to expand with g(n) = 6 and h(n) = 10 is...
+[[7, 1, 2],
+ [8, 5, 3],
+ [4, 6, 0]]
+
+The best state to expand with g(n) = 7 and h(n) = 9 is...
+[[7, 1, 2],
+ [8, 5, 3],
+ [4, 0, 6]]
+
+The best state to expand with g(n) = 8 and h(n) = 10 is...
+[[7, 1, 2],
+ [8, 5, 3],
+ [0, 4, 6]]
+
+The best state to expand with g(n) = 9 and h(n) = 9 is...
+[[7, 1, 2],
+ [0, 5, 3],
+ [8, 4, 6]]
+
+The best state to expand with g(n) = 10 and h(n) = 8 is...
+[[0, 1, 2],
+ [7, 5, 3],
+ [8, 4, 6]]
+
+The best state to expand with g(n) = 11 and h(n) = 7 is...
+[[1, 0, 2],
+ [7, 5, 3],
+ [8, 4, 6]]
+
+The best state to expand with g(n) = 12 and h(n) = 6 is...
+[[1, 2, 0],
+ [7, 5, 3],
+ [8, 4, 6]]
+
+The best state to expand with g(n) = 13 and h(n) = 5 is...
+[[1, 2, 3],
+ [7, 5, 0],
+ [8, 4, 6]]
+
+The best state to expand with g(n) = 14 and h(n) = 6 is...
+[[1, 2, 3],
+ [7, 0, 5],
+ [8, 4, 6]]
+
+The best state to expand with g(n) = 15 and h(n) = 5 is...
+[[1, 2, 3],
+ [7, 4, 5],
+ [8, 0, 6]]
+
+The best state to expand with g(n) = 16 and h(n) = 4 is...
+[[1, 2, 3],
+ [7, 4, 5],
+ [0, 8, 6]]
+
+The best state to expand with g(n) = 17 and h(n) = 3 is...
+[[1, 2, 3],
+ [0, 4, 5],
+ [7, 8, 6]]
+
+The best state to expand with g(n) = 18 and h(n) = 2 is...
+[[1, 2, 3],
+ [4, 0, 5],
+ [7, 8, 6]]
+
+The best state to expand with g(n) = 19 and h(n) = 1 is...
+[[1, 2, 3],
+ [4, 5, 0],
+ [7, 8, 6]]
+
+The best state to expand with g(n) = 20 and h(n) = 0 is...
+[[1, 2, 3],
+ [4, 5, 6],
+ [7, 8, 0]]
+
+Goal state!
+Solution depth was 20
+Number of nodes expanded: 280
+  [1/1] A* Manhattan         - Depth: 20, Nodes:    280, Time: 0.0056s

@@ -1,6 +1,6 @@
 from collections import deque  
 from typing import Callable, List, Any, Optional, Tuple
-
+import heapq
 
 class Node:
     # Represents a search tree node    
@@ -60,47 +60,53 @@ def expand(node: Node, problem: Problem) -> List[Node]:
         successors.append(successor_node)
     return successors
 
-# General Search Algorithm 
-def general_search(problem: Problem, queueing_function: Callable) -> Tuple[Optional[Node], int]:
-    nodes = deque([Node(problem.initial_state)])
+def general_search(problem: Problem, queueing_function: Callable) -> Optional[Any]:
+    nodes = [Node(problem.initial_state)]
     expanded_nodes = 0
-    best_cost = {} #Dic for best cost per state
+    best_cost = {}
 
     while True:
         if not nodes:
-            return None, expanded_nodes
+            return None
         
-        node = nodes.popleft()
-        expanded_nodes += 1
-
+        node = heapq.heappop(nodes)
         if node.state in best_cost and node.cost >= best_cost[node.state]:
             continue 
-
         best_cost[node.state] = node.cost
-        expanded_nodes += 1
-
+        expanded_nodes += 1 
+        
         if problem.goal_test(node.state):
+            # Print the solution path
+            from heuristics import manhattan_heuristic
+            path = node.get_path()
+            
+            for i, state in enumerate(path):
+                h_val = manhattan_heuristic(state, problem.goal_state)
+                print(f"The best state to expand with g(n) = {i} and h(n) = {int(h_val)} is...")
+                state_list = list(state)
+                print(f"[[{state_list[0]}, {state_list[1]}, {state_list[2]}],")
+                print(f" [{state_list[3]}, {state_list[4]}, {state_list[5]}],")
+                print(f" [{state_list[6]}, {state_list[7]}, {state_list[8]}]]")
+                print()
+            
+            print("Goal state!")
+            print(f"Solution depth was {node.depth}")
+            print(f"Number of nodes expanded: {expanded_nodes}")
             return node, expanded_nodes
         
         new_nodes = expand(node, problem)
         nodes = queueing_function(nodes, new_nodes)
         
-
 def uniform_cost_queueing(nodes: deque, new_nodes: List[Node]) -> deque:
     #UCS: Priority is just the path cost g(n)
     for node in new_nodes:
-        node.evaluation_cost = node.cost  # f(n) = g(n) + 0
-    
-    combined = list(nodes) + new_nodes
-    combined.sort()  # Uses Node.__lt__ which compares evaluation_cost
-    return deque(combined)
+        node.evaluation_cost = node.cost
+        heapq.heappush(nodes, node)  
+    return nodes
 
 def a_star_queueing(nodes: deque, new_nodes: List[Node], heuristic_fn: Callable) -> deque:
     #A*: Sort by f(n) = g(n) + h(n)
     for node in new_nodes:
-        h_n = heuristic_fn(node.state)  # Calculate h(n)
-        node.evaluation_cost = node.cost + h_n  # f(n) = g(n) + h(n)
-    
-    combined = list(nodes) + new_nodes
-    combined.sort()  # Uses Node.__lt__
-    return deque(combined)
+        node.evaluation_cost = node.cost + heuristic_fn(node.state)
+        heapq.heappush(nodes, node)
+    return nodes 

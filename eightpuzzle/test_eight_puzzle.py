@@ -8,14 +8,7 @@ from heuristics import misplaced_tiles_heuristic, manhattan_heuristic
 
 
 TEST_CASES = {
-    'testcase_1': (1, 2, 3, 4, 5, 6, 7, 8, 0),  # depth 0
-    'testcase_2': (1, 2, 3, 4, 5, 6, 0, 7, 8),  # depth 2
-    'testcase_3': (1, 2, 3, 5, 0, 6, 4, 7, 8),  # depth 4
-    'testcase_4': (1, 3, 6, 5, 0, 2, 4, 7, 8),  # depth 8
-    'testcase_5': (1, 3, 6, 5, 0, 7, 4, 8, 2),  # depth 12
-    'testcase_6': (1, 6, 7, 5, 0, 3, 4, 8, 2),  # depth 16
     'testcase_7': (7, 1, 2, 4, 8, 5, 6, 3, 0),  # depth 20
-    'testcase_8': (0, 7, 2, 4, 6, 1, 3, 5, 8),  # depth 24
 }
 
 GOAL = (1, 2, 3, 4, 5, 6, 7, 8, 0)
@@ -24,7 +17,6 @@ GOAL = (1, 2, 3, 4, 5, 6, 7, 8, 0)
 def run_test(test_name, initial, algo_name, queueing_fn):
     #Run single test and return metrics
     problem = EightPuzzleProblem(initial, GOAL)
-    
     start = time.time()
     result_node, nodes = general_search(problem, queueing_fn)
     duration = time.time() - start
@@ -44,8 +36,8 @@ def run_all_tests():
     results = []
     
     algorithms = [
-        ('UCS', uniform_cost_queueing, None),
-        ('A* Misplaced', a_star_queueing, misplaced_tiles_heuristic),
+        #('UCS', uniform_cost_queueing, None),
+        #('A* Misplaced', a_star_queueing, misplaced_tiles_heuristic),
         ('A* Manhattan', a_star_queueing, manhattan_heuristic),
     ]
     
@@ -53,7 +45,7 @@ def run_all_tests():
     current = 0
     
     
-    print("Eight Puzzle Test Suite")
+    #print("Eight Puzzle Test Suite")
     
     for test_name, initial in TEST_CASES.items():
         print(f"\n{test_name}: {initial}")
@@ -87,20 +79,10 @@ def run_all_tests():
             except Exception as e:
                 print(f"  [{current}/{total}] {algo_name:20} - ERROR: {e}")
     
-    # Save to CSV
-    with open('test_results.csv', 'w', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=['test_case', 'algorithm', 'depth', 
-                                                 'nodes', 'time_s'])
-        writer.writeheader()
-        writer.writerows(results)
-    
+  
 
-    print("Results saved to: test_results.csv")
-    
-    return results
 
-import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
      results = run_all_tests()
-     plot_results('test_results.csv')
+     #plot_results('test_results.csv')
