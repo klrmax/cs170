@@ -1,4 +1,4 @@
-from collections import deque  
+import heapq
 from typing import Callable, List, Any, Optional, Tuple
 
 
@@ -62,17 +62,16 @@ def expand(node: Node, problem: Problem) -> List[Node]:
 
 # General Search Algorithm 
 def general_search(problem: Problem, queueing_function: Callable) -> Tuple[Optional[Node], int]:
-    nodes = deque([Node(problem.initial_state)])
+    initial_node = Node(problem.initial_state)
+    initial_node.evaluation_cost = 0
+    nodes = [initial_node]
+    heapq.heapify(nodes)
     expanded_nodes = 0
     best_cost = {} #Dic for best cost per state
 
-    while True:
-        if not nodes:
-            return None, expanded_nodes
+    while nodes:
+        node = heapq.heappop(nodes)
         
-        node = nodes.popleft()
-        expanded_nodes += 1
-
         if node.state in best_cost and node.cost >= best_cost[node.state]:
             continue 
 
@@ -84,7 +83,9 @@ def general_search(problem: Problem, queueing_function: Callable) -> Tuple[Optio
         
         new_nodes = expand(node, problem)
         nodes = queueing_function(nodes, new_nodes)
-        
+    
+    return None, expanded_nodes
+
 
 def uniform_cost_queueing(nodes: deque, new_nodes: List[Node]) -> deque:
     #UCS: Priority is just the path cost g(n)

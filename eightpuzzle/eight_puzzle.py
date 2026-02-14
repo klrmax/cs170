@@ -1,4 +1,4 @@
-from algorithms.general_search import Problem, a_star_queueing
+from general_search import Problem, a_star_queueing
 from typing import List, Tuple, Optional
 
 
