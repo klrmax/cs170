@@ -2,8 +2,7 @@ import heapq
 from typing import Callable, List, Any, Optional, Tuple
 
 
-class Node:
-    # Represents a search tree node    
+class Node: 
     def __init__(self, state, parent=None, depth=0, cost=0, evaluation_cost=0):
         self.state = state
         self.parent = parent
@@ -11,11 +10,9 @@ class Node:
         self.cost = cost # Path cost g(n)
         self.evaluation_cost = evaluation_cost # f(n) = g(n) + h(n)
     
-    #string representation for debugging
     def __repr__(self):
         return f"Node(state={self.state}, depth={self.depth}, cost={self.cost}, evaluation_cost={self.evaluation_cost})"
 
-    # enables comparison based on evaluation cost
     def __lt__(self, other):
         return self.evaluation_cost < other.evaluation_cost
 
@@ -39,11 +36,9 @@ class Problem:
         return state == self.goal_state
     
     def get_successors(self, state) -> List[Any]:
-        #returns all successor states from the given state
         raise NotImplementedError
 
     def get_step_cost(self, from_state, to_state) -> float:
-        #Returns the cost of moving from from_state to to_state
         return 1.0 # Default cost
 
 def expand(node: Node, problem: Problem) -> List[Node]:
@@ -60,14 +55,13 @@ def expand(node: Node, problem: Problem) -> List[Node]:
         successors.append(successor_node)
     return successors
 
-# General Search Algorithm 
 def general_search(problem: Problem, heuristic_fn: Callable) -> Tuple[Optional[Node], int]:
     initial_node = Node(problem.initial_state)
     initial_node.evaluation_cost = 0
     nodes = [initial_node]
     heapq.heapify(nodes)
     expanded_nodes = 0
-    best_cost = {} #Dic for best cost per state
+    best_cost = {} #Dict for best cost per state
 
     while nodes:
         node = heapq.heappop(nodes)
@@ -84,7 +78,7 @@ def general_search(problem: Problem, heuristic_fn: Callable) -> Tuple[Optional[N
         new_nodes = expand(node, problem)
 
         for new_node in new_nodes:
-            h_n = heuristic_fn(new_node.state)
+            h_n = heuristic_fn(new_node.state, problem.goal_state)
             new_node.evaluation_cost = new_node.cost + h_n  # f(n) = g(n) + h(n)
             heapq.heappush(nodes, new_node)
     

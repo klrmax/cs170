@@ -20,9 +20,8 @@ TEST_CASES = {
 GOAL = (1, 2, 3, 4, 5, 6, 7, 8, 0)
 
 
-def run_test(test_name, initial, algo_name, heuristic_fn):
-    #Run single test and return metrics
-    problem = EightPuzzleProblem(initial, GOAL)
+def run_test(test_name, initial, algo_name, heuristic_fn, grid_size=3):
+    problem = EightPuzzleProblem(initial, GOAL, grid_size)
     
     start = time.time()
     result_node, nodes = general_search(problem, heuristic_fn)
@@ -30,6 +29,7 @@ def run_test(test_name, initial, algo_name, heuristic_fn):
     
     return {
         'test_case': test_name,
+        'algorithm': algo_name,
         'depth': result_node.depth if result_node else 'N/A',
         'nodes': nodes,
         'time_s': round(duration, 6)
@@ -37,7 +37,6 @@ def run_test(test_name, initial, algo_name, heuristic_fn):
 
 
 def run_all_tests():
-    #Run all tests and save to CSV
     results = []
     
     algorithms = [
@@ -54,21 +53,18 @@ def run_all_tests():
         
         for algo_name, heuristic in algorithms:
             current += 1
-
-            # Configure queueing function
-            if heuristic:
-                h_func = partial(heuristic, goal=GOAL)
             
+            h_func = partial(heuristic, goal=GOAL, grid_size=3)  # Wrap heuristic for general_search
+
             try:
                 result = run_test(test_name, initial, algo_name, h_func)
-                results.append(result)
+                results.append(result)  
                 print(f"  [{current}/{total}] {algo_name:20} - "
                       f"Depth: {result['depth']:2}, Nodes: {result['nodes']:6}, "
                       f"Time: {result['time_s']:.4f}s")
             except Exception as e:
                 print(f"  [{current}/{total}] {algo_name:20} - ERROR: {e}")
     
-    # Save to CSV
     with open('test_results.csv', 'w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=['test_case', 'algorithm', 'depth', 
                                                  'nodes', 'time_s'])
@@ -76,7 +72,7 @@ def run_all_tests():
         writer.writerows(results)
     
 
-    print("Results saved")
+    print("Results saved to test_results.csv")
     
     return results
 
