@@ -1,7 +1,6 @@
 from general_search import Problem
 from typing import List, Tuple, Optional
 
-
 class EightPuzzleProblem(Problem):
     def __init__(self, initial_state: Tuple[int, ...], goal_state: Tuple[int, ...], grid_size: int = 3):
         self.grid_size = grid_size
@@ -18,7 +17,6 @@ class EightPuzzleProblem(Problem):
     def get_blank_position(self, state: Tuple[int, ...]) -> int:
         return state.index(0)
     
-    
     def get_possible_moves(self, state: Tuple[int, ...]) -> List[str]:
         blank_pos = self.get_blank_position(state)
         row = blank_pos // self.grid_size  
@@ -29,7 +27,6 @@ class EightPuzzleProblem(Problem):
         if row < self.grid_size - 1: moves.append('south')
         if col > 0: moves.append('west')
         if col < self.grid_size - 1: moves.append('east')
-        
         return moves
     
     def get_successors(self, state: Tuple[int, ...]) -> List[Tuple[int, ...]]:
@@ -40,7 +37,6 @@ class EightPuzzleProblem(Problem):
             new_state = self.move(state, move)
             if new_state:
                 successors.append(new_state)
-        
         return successors
     
     def move(self, state: Tuple[int, ...], direction: str) -> Optional[Tuple[int, ...]]:
@@ -63,4 +59,3 @@ class EightPuzzleProblem(Problem):
         state_list[blank_pos], state_list[new_blank_pos] = state_list[new_blank_pos], state_list[blank_pos]
         
         return tuple(state_list)
-

@@ -1,7 +1,6 @@
 import heapq
 from typing import Callable, List, Any, Optional, Tuple
 
-
 class Node: 
     def __init__(self, state, parent=None, depth=0, cost=0, evaluation_cost=0):
         self.state = state
@@ -24,7 +23,6 @@ class Node:
             path.append(current.state)
             current = current.parent
         return list(reversed(path))
-
 
 class Problem:
     

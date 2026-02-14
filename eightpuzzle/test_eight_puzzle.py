@@ -5,6 +5,18 @@ from general_search import general_search
 from eight_puzzle import EightPuzzleProblem
 from heuristics import misplaced_tiles_heuristic, manhattan_heuristic, ucs_heuristic
 
+def get_custom_puzzle():
+    #Let user enter a custom puzzle.
+    grid_size = int(input("Grid size (3 for 8-puzzle, 4 for 15-puzzle): "))
+
+    print(f"Enter your {grid_size}x{grid_size} puzzle (0 = blank):")
+    puzzle = []
+    for i in range(grid_size):
+        puzzle.extend([int(x) for x in input(f"Row {i+1}: ").split()])
+    
+    goal = tuple(range(1, grid_size * grid_size)) + (0,)
+    
+    return tuple(puzzle), goal, grid_size
 
 TEST_CASES = {
     'testcase_1': (1, 2, 3, 4, 5, 6, 7, 8, 0),  # depth 0
@@ -34,7 +46,6 @@ def run_test(test_name, initial, algo_name, heuristic_fn, grid_size=3):
         'nodes': nodes,
         'time_s': round(duration, 6)
     }
-
 
 def run_all_tests():
     results = []
@@ -71,7 +82,6 @@ def run_all_tests():
         writer.writeheader()
         writer.writerows(results)
     
-
     print("Results saved to test_results.csv")
     
     return results
