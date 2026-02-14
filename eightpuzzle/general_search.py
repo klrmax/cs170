@@ -61,7 +61,7 @@ def expand(node: Node, problem: Problem) -> List[Node]:
     return successors
 
 # General Search Algorithm 
-def general_search(problem: Problem, queueing_function: Callable) -> Tuple[Optional[Node], int]:
+def general_search(problem: Problem, heuristic_fn: Callable) -> Tuple[Optional[Node], int]:
     initial_node = Node(problem.initial_state)
     initial_node.evaluation_cost = 0
     nodes = [initial_node]
@@ -82,26 +82,10 @@ def general_search(problem: Problem, queueing_function: Callable) -> Tuple[Optio
             return node, expanded_nodes
         
         new_nodes = expand(node, problem)
-        nodes = queueing_function(nodes, new_nodes)
+
+        for new_node in new_nodes:
+            h_n = heuristic_fn(new_node.state)
+            new_node.evaluation_cost = new_node.cost + h_n  # f(n) = g(n) + h(n)
+            heapq.heappush(nodes, new_node)
     
     return None, expanded_nodes
-
-
-def uniform_cost_queueing(nodes: deque, new_nodes: List[Node]) -> deque:
-    #UCS: Priority is just the path cost g(n)
-    for node in new_nodes:
-        node.evaluation_cost = node.cost  # f(n) = g(n) + 0
-    
-    combined = list(nodes) + new_nodes
-    combined.sort()  # Uses Node.__lt__ which compares evaluation_cost
-    return deque(combined)
-
-def a_star_queueing(nodes: deque, new_nodes: List[Node], heuristic_fn: Callable) -> deque:
-    #A*: Sort by f(n) = g(n) + h(n)
-    for node in new_nodes:
-        h_n = heuristic_fn(node.state)  # Calculate h(n)
-        node.evaluation_cost = node.cost + h_n  # f(n) = g(n) + h(n)
-    
-    combined = list(nodes) + new_nodes
-    combined.sort()  # Uses Node.__lt__
-    return deque(combined)

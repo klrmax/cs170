@@ -1,17 +1,10 @@
-from general_search import Problem, a_star_queueing
+from general_search import Problem
 from typing import List, Tuple, Optional
 
 
 class EightPuzzleProblem(Problem):
-    
-    # Eight-Puzzle Problem: Slide tiles to reach the goal state
     # State: Tuple with 9 numbers (0 = blank tile)
-    
     def __init__(self, initial_state: Tuple[int, ...], goal_state: Tuple[int, ...]):
-
-        # Args: 
-        # initial_state: Starting state of the puzzle
-        # goal_state: Goal state of the puzzle
 
         if len(initial_state) != 9 or len(goal_state) != 9:
             raise ValueError("States must have exactly 9 elements!")
@@ -23,14 +16,12 @@ class EightPuzzleProblem(Problem):
         return state == self.goal_state
     
     def get_blank_position(self, state: Tuple[int, ...]) -> int:
-        # Finds the position of the blank tile (0)
-        # Returns: Index from 0 to 8
+        # Returns Index from 0 to 8
         return state.index(0)
     
     
     def get_possible_moves(self, state: Tuple[int, ...]) -> List[str]:
         # Returns all possible movement directions
-        # Returns: List with 'up', 'down', 'left', 'right'
         blank_pos = self.get_blank_position(state)
         # convert 1D index to 2D coordinates
         row = blank_pos // 3
@@ -38,13 +29,13 @@ class EightPuzzleProblem(Problem):
         
         moves = []
         
-        if row > 0:  # Can move up
+        if row > 0:
             moves.append('north')
-        if row < 2:  # Can move down
+        if row < 2: 
             moves.append('south')
-        if col > 0:  # Can move left
+        if col > 0:  
             moves.append('west')
-        if col < 2:  # Can move right
+        if col < 2:  
             moves.append('east')
         
         return moves
@@ -95,48 +86,3 @@ class EightPuzzleProblem(Problem):
         return tuple(state_list)
 
 
-# Example usage
-if __name__ == "__main__":
-    from algorithms.general_search import general_search, a_star_queueing, uniform_cost_queueing
-    from heuristics import misplaced_tiles_heuristic, manhattan_heuristic
-    from functools import partial
-
-    goal = (1, 2, 3, 4, 5, 6, 7, 8, 0)
-    #hardcoded solvable initial state
-    initial = (1, 2, 3, 4, 5, 6, 7, 0, 8)
-    problem = EightPuzzleProblem(initial, goal)
-    
-    # Ask the user for the method
-    print("=== Eight Puzzle Solver ===")
-
-    print("Choose an algorithm:")
-    print("1: Uniform Cost Search (UCS)")
-    print("2: A* with Misplaced Tiles")
-    print("3: A* with Manhattan Distance")
-    
-    choice = input("\nEnter choice (1-3): ")
-
-    # Configure based on choice
-    if choice == "1":
-        print("\nSolving with UCS")
-        strategy = uniform_cost_queueing
-    elif choice == "2":
-        print("\nSolving with A* (Misplaced Tiles)")
-        h_func = partial(misplaced_tiles_heuristic, goal=problem.goal_state)
-        strategy = partial(a_star_queueing, heuristic_fn=h_func)
-    elif choice == "3":
-        print("\nSolving with A* (Manhattan)")
-        h_func = partial(manhattan_heuristic, goal=problem.goal_state)
-        strategy = partial(a_star_queueing, heuristic_fn=h_func)
-    else:
-        print("Invalid choice. Defaulting to UCS.")
-        strategy = uniform_cost_queueing
-
-    result_node, total_expanded = general_search(problem, strategy)
-
-    if result_node:
-        print(f"Expanded Nodes: {total_expanded}")
-        print(f"Path length: {result_node.depth}")
-        print(f"Goal State Reached: {result_node.state}")
-    else:
-        print("No solution found. after expanding", total_expanded, "nodes.")

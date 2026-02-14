@@ -1,7 +1,7 @@
 
 def manhattan_heuristic(state: tuple, goal: tuple) -> float:
     # Standalone Manhattan distance calculator.
-    # Formula: sum(|x1 - x2| + |y1 - y2|) for all tiles except the blank (0).
+    # sum(x1 - x2 + y1 - y2) for all tiles except the blank (0).
     dist = 0
     for i, tile in enumerate(state):
         if tile != 0:
@@ -19,3 +19,6 @@ def manhattan_heuristic(state: tuple, goal: tuple) -> float:
 def misplaced_tiles_heuristic(state: tuple, goal: tuple) -> float:
     # Counts how many tiles are not in their target position.
     return sum(1 for s, g in zip(state, goal) if s != g and s != 0)
+
+def ucs_heuristic(state: tuple, goal: tuple) -> float:
+    return 0.0
